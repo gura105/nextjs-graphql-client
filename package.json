@@ -6,7 +6,8 @@
     "dev": "next dev -p ${PORT:-3332}",
     "build": "next build",
     "start": "next start -p ${PORT:-3332}",
-    "lint": "next lint"
+    "lint": "next lint",
+    "codegen": "graphql-codegen --config codegen.yml"
   },
   "dependencies": {
     "graphql-tag": "^2.12.6",
@@ -18,6 +19,11 @@
     "urql": "^2.2.3"
   },
   "devDependencies": {
+    "@graphql-codegen/cli": "2.11.6",
+    "@graphql-codegen/typescript": "2.7.3",
+    "@graphql-codegen/typescript-operations": "2.5.3",
+    "@graphql-codegen/typescript-urql": "^3.6.4",
+    "@graphql-codegen/urql-introspection": "2.2.1",
     "@types/node": "18.7.2",
     "@types/react": "18.0.17",
     "@types/react-dom": "18.0.6",
