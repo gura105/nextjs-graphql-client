@@ -1,8 +1,16 @@
 query PostIndexPage {
-  posts {
+  articles: posts(type: ["article"]) {
     id
     title
     type
     publishDate
+    emoji
+  }
+  diaries: posts(type: ["diary"]) {
+    id
+    title
+    type
+    publishDate
+    emoji
   }
 }

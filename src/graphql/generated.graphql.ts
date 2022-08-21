@@ -44,16 +44,24 @@ export type QueryPostsArgs = {
 export type PostIndexPageQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type PostIndexPageQuery = { __typename?: 'Query', posts?: Array<{ __typename?: 'PostModel', id: string, title: string, type: string, publishDate?: any | null }> | null };
+export type PostIndexPageQuery = { __typename?: 'Query', articles?: Array<{ __typename?: 'PostModel', id: string, title: string, type: string, publishDate?: any | null, emoji?: string | null }> | null, diaries?: Array<{ __typename?: 'PostModel', id: string, title: string, type: string, publishDate?: any | null, emoji?: string | null }> | null };
 
 
 export const PostIndexPageDocument = gql`
     query PostIndexPage {
-  posts {
+  articles: posts(type: ["article"]) {
     id
     title
     type
     publishDate
+    emoji
+  }
+  diaries: posts(type: ["diary"]) {
+    id
+    title
+    type
+    publishDate
+    emoji
   }
 }
     `;

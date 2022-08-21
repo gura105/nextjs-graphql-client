@@ -2,9 +2,10 @@ import gql from "graphql-tag";
 import type { GetServerSideProps, NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
-import { PostIndexPageDocument } from "../src/graphql/generated.graphql";
+import { PostIndexPageDocument, PostModel } from "../src/graphql/generated.graphql";
 import { urqlClient } from "../src/libs/gql-requests";
 import styles from "../styles/Home.module.css";
+import { grey } from "@mui/material/colors";
 import {
   Avatar,
   Box,
@@ -13,16 +14,14 @@ import {
   ListItemAvatar,
   ListItemText,
   Stack,
+  Chip,
+  Typography
 } from "@mui/material";
+import { isoStringToJstDate } from "@pb-libs/date";
 
 type Props = {
-  posts: {
-    id: string;
-    title: string;
-    emoji: string;
-    type: string;
-    published: boolean
-  }[];
+  articles: PostModel[];
+  diaries: PostModel[];
 };
 
 const Home: NextPage<Props> = (props) => {
@@ -32,13 +31,41 @@ const Home: NextPage<Props> = (props) => {
         minHeight: "100vh",
       }}
     >
+      <Typography variant="h4">Articles</Typography>
       <List sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}>
-        {props.posts.map((post) => (
+        {props.articles.map((post) => (
           <ListItem key={post.id}>
             <ListItemAvatar>
-              <Avatar>絵</Avatar>
+              <Avatar sx={{ bgcolor: grey[300] }}> {post.emoji} </Avatar>
             </ListItemAvatar>
-            <ListItemText primary={post.title} secondary="公開日" />
+            <ListItemText
+              primary={post.title}
+              secondary={
+                <Stack direction="row" spacing={2}>
+                  <Chip size="small" color="warning" label={post.type} />
+                  <Typography>{isoStringToJstDate(post.publishDate)}</Typography>
+                </Stack>
+              }
+            />
+          </ListItem>
+        ))}
+      </List>
+      <Typography variant="h4">Diaries</Typography>
+      <List sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}>
+        {props.diaries.map((post) => (
+          <ListItem key={post.id}>
+            <ListItemAvatar>
+              <Avatar sx={{ bgcolor: grey[300] }}> {post.emoji} </Avatar>
+            </ListItemAvatar>
+            <ListItemText
+              primary={post.title}
+              secondary={
+                <Stack direction="row" spacing={2}>
+                  <Chip size="small" color="warning" label={post.type} />
+                  <Typography>{isoStringToJstDate(post.publishDate)}</Typography>
+                </Stack>
+              }
+            />
           </ListItem>
         ))}
       </List>
@@ -76,7 +103,8 @@ export const getServerSideProps: GetServerSideProps<Props> = async () => {
 
     return {
       props: {
-        posts: result.data.posts,
+        articles: result.data.articles,
+        diaries: result.data.diaries,
       },
     };
   } catch (e) {
