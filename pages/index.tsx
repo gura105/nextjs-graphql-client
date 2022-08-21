@@ -3,8 +3,8 @@ import type { GetServerSideProps, NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
 import { PostIndexPageDocument, PostModel } from "../src/graphql/generated.graphql";
-import { urqlClient } from "../src/libs/gql-requests";
-import styles from "../styles/Home.module.css";
+import { urqlClient } from "@pb-libs/gql-requests";
+import styles from "@pb-styles/Home.module.css";
 import { grey } from "@mui/material/colors";
 import {
   Avatar,
@@ -18,10 +18,12 @@ import {
   Typography
 } from "@mui/material";
 import { isoStringToJstDate } from "@pb-libs/date";
+import { PostFragment } from "@pb-graphql/generated.graphql"
+import { PostListView } from "./component/PostListView";
 
 type Props = {
-  articles: PostModel[];
-  diaries: PostModel[];
+  articles: PostFragment[];
+  diaries: PostFragment[];
 };
 
 const Home: NextPage<Props> = (props) => {
@@ -32,43 +34,9 @@ const Home: NextPage<Props> = (props) => {
       }}
     >
       <Typography variant="h4">Articles</Typography>
-      <List sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}>
-        {props.articles.map((post) => (
-          <ListItem key={post.id}>
-            <ListItemAvatar>
-              <Avatar sx={{ bgcolor: grey[300] }}> {post.emoji} </Avatar>
-            </ListItemAvatar>
-            <ListItemText
-              primary={post.title}
-              secondary={
-                <Stack direction="row" spacing={2}>
-                  <Chip size="small" color="warning" label={post.type} />
-                  <Typography>{isoStringToJstDate(post.publishDate)}</Typography>
-                </Stack>
-              }
-            />
-          </ListItem>
-        ))}
-      </List>
+        <PostListView posts={props.articles} />
       <Typography variant="h4">Diaries</Typography>
-      <List sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}>
-        {props.diaries.map((post) => (
-          <ListItem key={post.id}>
-            <ListItemAvatar>
-              <Avatar sx={{ bgcolor: grey[300] }}> {post.emoji} </Avatar>
-            </ListItemAvatar>
-            <ListItemText
-              primary={post.title}
-              secondary={
-                <Stack direction="row" spacing={2}>
-                  <Chip size="small" color="warning" label={post.type} />
-                  <Typography>{isoStringToJstDate(post.publishDate)}</Typography>
-                </Stack>
-              }
-            />
-          </ListItem>
-        ))}
-      </List>
+        <PostListView posts={props.diaries} />
       <Box
         sx={{
           bgColor: "palette.primary.dark",
