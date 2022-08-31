@@ -1,4 +1,10 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+## What's this?
+
+- Repository for GraphQL learning.
+- The objective is to learn to develop a React front end with a GraphQL client.
+- The back-end server is the following repository.
+  - https://github.com/gura105/nestjs-graphql-server
+- Reference: [GraphQL スターターパック | Prisma + NestJS + Next.JS製 個人ブログサイトをCloud Runで運用しよう](https://zenn.dev/waddy/books/graphql-nestjs-nextjs-bootcamp)
 
 ## Getting Started
 
