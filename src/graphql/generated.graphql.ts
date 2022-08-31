@@ -18,6 +18,7 @@ export type Scalars = {
 
 export type PostModel = {
   __typename?: 'PostModel';
+  bodyMarkdown: Scalars['String'];
   contentPath: Scalars['String'];
   emoji?: Maybe<Scalars['String']>;
   excerpt?: Maybe<Scalars['String']>;
@@ -31,9 +32,14 @@ export type PostModel = {
 
 export type Query = {
   __typename?: 'Query';
-  hello: Array<Scalars['String']>;
+  findPost: PostModel;
   posts?: Maybe<Array<PostModel>>;
-  prismaPosts?: Maybe<Array<PostModel>>;
+};
+
+
+export type QueryFindPostArgs = {
+  contentPath?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['String']>;
 };
 
 
@@ -47,6 +53,13 @@ export type PostIndexPageQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type PostIndexPageQuery = { __typename?: 'Query', articles?: Array<{ __typename?: 'PostModel', id: string, title: string, type: string, publishDate?: any | null, emoji?: string | null }> | null, diaries?: Array<{ __typename?: 'PostModel', id: string, title: string, type: string, publishDate?: any | null, emoji?: string | null }> | null };
+
+export type PostDetailPageQueryVariables = Exact<{
+  contentPath?: InputMaybe<Scalars['String']>;
+}>;
+
+
+export type PostDetailPageQuery = { __typename?: 'Query', post: { __typename?: 'PostModel', bodyMarkdown: string, id: string, title: string, type: string, publishDate?: any | null, emoji?: string | null } };
 
 export const PostFragmentDoc = gql`
     fragment Post on PostModel {
@@ -70,4 +83,16 @@ export const PostIndexPageDocument = gql`
 
 export function usePostIndexPageQuery(options?: Omit<Urql.UseQueryArgs<PostIndexPageQueryVariables>, 'query'>) {
   return Urql.useQuery<PostIndexPageQuery, PostIndexPageQueryVariables>({ query: PostIndexPageDocument, ...options });
+};
+export const PostDetailPageDocument = gql`
+    query PostDetailPage($contentPath: String) {
+  post: findPost(contentPath: $contentPath) {
+    ...Post
+    bodyMarkdown
+  }
+}
+    ${PostFragmentDoc}`;
+
+export function usePostDetailPageQuery(options?: Omit<Urql.UseQueryArgs<PostDetailPageQueryVariables>, 'query'>) {
+  return Urql.useQuery<PostDetailPageQuery, PostDetailPageQueryVariables>({ query: PostDetailPageDocument, ...options });
 };

@@ -14,3 +14,10 @@ query PostIndexPage {
     ...Post
   }
 }
+
+query PostDetailPage($contentPath: String) {
+  post: findPost(contentPath: $contentPath) {
+    ...Post
+    bodyMarkdown
+  }
+}
