@@ -1,7 +1,7 @@
 ## What's this?
 
-- Repository for GraphQL learning.
-- The objective is to learn to develop a React front end with a GraphQL client.
+- Repository to study GraphQL.
+- The objective is to learn how to develop a React front-end with GraphQL
 - The back-end server is the following repository.
   - https://github.com/gura105/nestjs-graphql-server
 - Reference: [GraphQL スターターパック | Prisma + NestJS + Next.JS製 個人ブログサイトをCloud Runで運用しよう](https://zenn.dev/waddy/books/graphql-nestjs-nextjs-bootcamp)
